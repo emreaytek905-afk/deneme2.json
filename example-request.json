@@ -238,15 +238,16 @@
       },
       "18": {
         "inputs": {
-          "value": 2000,
-          "images": [
+          "size": 2000,
+          "interpolation_mode": "bicubic",
+          "image": [
             "5",
             0
           ]
         },
-        "class_type": "ResizeImagesByLongerEdge",
+        "class_type": "JWImageResizeByLongerSide",
         "_meta": {
-          "title": "ResizeImagesByLongerEdge"
+          "title": "JWImageResizeByLongerSide"
         }
       },
       "19": {
