@@ -1,0 +1,283 @@
+{
+  "input": {
+    "workflow": {
+      "1": {
+        "inputs": {
+          "ckpt_name": "Phr00t__Qwen-Image-Edit-Rapid-AIO__Qwen-Rapid-AIO-NSFW-v21.safetensors"
+        },
+        "class_type": "CheckpointLoaderSimple",
+        "_meta": {
+          "title": "CheckpointLoaderSimple"
+        }
+      },
+      "2": {
+        "inputs": {
+          "seed": 65454653,
+          "steps": 4,
+          "cfg": 1,
+          "sampler_name": "sa_solver",
+          "scheduler": "beta",
+          "denoise": 0.87,
+          "model": [
+            "1",
+            0
+          ],
+          "positive": [
+            "3",
+            0
+          ],
+          "negative": [
+            "4",
+            0
+          ],
+          "latent_image": [
+            "9",
+            0
+          ]
+        },
+        "class_type": "KSampler",
+        "_meta": {
+          "title": "KSampler"
+        }
+      },
+      "3": {
+        "inputs": {
+          "text": "replace the face and hair in image 2 with the exact face and hair from image 1, perfect face swap, identical facial features bone structure skin texture skin tone expression eyes nose mouth lips makeup exact match, long hair length style volume parting copy from image 1, keep everything else 100% unchanged from image 2:\n",
+          "clip": [
+            "1",
+            1
+          ],
+          "vae": [
+            "1",
+            2
+          ],
+          "image1": [
+            "7",
+            0
+          ],
+          "image2": [
+            "8",
+            0
+          ]
+        },
+        "class_type": "TextEncodeQwenImageEditPlus",
+        "_meta": {
+          "title": "TextEncodeQwenImageEditPlus Input Prompt"
+        }
+      },
+      "4": {
+        "inputs": {
+          "text": "\n",
+          "clip": [
+            "1",
+            1
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        },
+        "class_type": "TextEncodeQwenImageEditPlus",
+        "_meta": {
+          "title": "TextEncodeQwenImageEditPlus Negative (leave blank)"
+        }
+      },
+      "5": {
+        "inputs": {
+          "samples": [
+            "2",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+          "title": "VAEDecode"
+        }
+      },
+      "7": {
+        "inputs": {
+          "image": "925f62d0d2b62c84741f3f8b218f83155b4ea4382532646d88c631bc54f8151a.jpg"
+        },
+        "class_type": "LoadImage",
+        "_meta": {
+          "title": "Optional Input Image"
+        }
+      },
+      "8": {
+        "inputs": {
+          "image": "98d332f0552bdbf3241795d96ba815875434cbc98b9e78b04bde1e9198f27c1d.png"
+        },
+        "class_type": "LoadImage",
+        "_meta": {
+          "title": "Optional Input Image"
+        }
+      },
+      "9": {
+        "inputs": {
+          "value": 1200
+        },
+        "class_type": "EmptyLatentImage",
+        "_meta": {
+          "title": "Final Image Size"
+        }
+      },
+      "10": {
+        "inputs": {
+          "filename_prefix": "z-image-turbo",
+          "images": [
+            "13",
+            0
+          ]
+        },
+        "class_type": "SaveImage",
+        "_meta": {
+          "title": "SaveImage"
+        }
+      },
+      "11": {
+        "inputs": {
+          "filename": "qwen_3_4b.safetensors"
+        },
+        "class_type": "CLIPLoader",
+        "_meta": {
+          "title": "CLIPLoader"
+        }
+      },
+      "12": {
+        "inputs": {
+          "conditioning": [
+            "20",
+            0
+          ]
+        },
+        "class_type": "ConditioningZeroOut",
+        "_meta": {
+          "title": "ConditioningZeroOut"
+        }
+      },
+      "13": {
+        "inputs": {
+          "samples": [
+            "17",
+            0
+          ],
+          "vae": [
+            "16",
+            0
+          ]
+        },
+        "class_type": "VAEDecode",
+        "_meta": {
+          "title": "VAEDecode"
+        }
+      },
+      "14": {
+        "inputs": {
+          "filename": "z_image_turbo_bf16.safetensors"
+        },
+        "class_type": "UNETLoader",
+        "_meta": {
+          "title": "UNETLoader"
+        }
+      },
+      "15": {
+        "inputs": {
+          "value": 3,
+          "model": [
+            "14",
+            0
+          ]
+        },
+        "class_type": "ModelSamplingAuraFlow",
+        "_meta": {
+          "title": "ModelSamplingAuraFlow"
+        }
+      },
+      "16": {
+        "inputs": {
+          "filename": "ae.safetensors"
+        },
+        "class_type": "VAELoader",
+        "_meta": {
+          "title": "VAELoader"
+        }
+      },
+      "17": {
+        "inputs": {
+          "seed": 347173462337962,
+          "steps": 4,
+          "cfg": 1,
+          "sampler_name": "res_multistep",
+          "scheduler": "simple",
+          "denoise": 0.15,
+          "model": [
+            "15",
+            0
+          ],
+          "positive": [
+            "20",
+            0
+          ],
+          "negative": [
+            "12",
+            0
+          ],
+          "latent_image": [
+            "19",
+            0
+          ]
+        },
+        "class_type": "KSampler",
+        "_meta": {
+          "title": "KSampler"
+        }
+      },
+      "18": {
+        "inputs": {
+          "value": 2000,
+          "images": [
+            "5",
+            0
+          ]
+        },
+        "class_type": "ResizeImagesByLongerEdge",
+        "_meta": {
+          "title": "ResizeImagesByLongerEdge"
+        }
+      },
+      "19": {
+        "inputs": {
+          "pixels": [
+            "18",
+            0
+          ],
+          "vae": [
+            "16",
+            0
+          ]
+        },
+        "class_type": "VAEEncode",
+        "_meta": {
+          "title": "VAEEncode"
+        }
+      },
+      "20": {
+        "inputs": {
+          "text": "realistic skin texture, detailed pores, natural imperfections, film grain\nNegative: plastic skin, smooth plastic, airbrushed",
+          "clip": [
+            "11",
+            0
+          ]
+        },
+        "class_type": "CLIPTextEncode",
+        "_meta": {
+          "title": "CLIPTextEncode"
+        }
+      }
+    }
+  }
+}
