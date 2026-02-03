@@ -4,6 +4,18 @@ FROM runpod/worker-comfyui:5.5.1-base
 # Çalışma dizini custom_nodes altına geç
 WORKDIR /comfyui/custom_nodes
 
+# ResizeImagesByLongerEdge node'unu sağlayan popüler bir repo (örnek)
+RUN git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git && \
+    cd comfyui_controlnet_aux && \
+    pip install --no-cache-dir -r requirements.txt && \
+    cd ..
+RUN git clone https://github.com/jamesWalker55/comfyui-various.git && \
+    cd comfyui-various && \
+    pip install --no-cache-dir -r requirements.txt && \
+    cd ..
+# Veya daha spesifik resize node repo'su varsa onu clone et
+# RUN git clone https://github.com/XXX/resize-by-longer-edge.git ...
+
 # Qwen Edit Utils custom node'unu kur (TextEncodeQwenImageEditPlus buradan geliyor)
 RUN git clone https://github.com/lrzjason/Comfyui-QwenEditUtils.git && \
     cd Comfyui-QwenEditUtils && \
