@@ -1,28 +1,26 @@
+
 # Temiz base imaj: ComfyUI + comfy-cli + manager içerir
 FROM runpod/worker-comfyui:5.5.1-base
 
 # Çalışma dizini custom_nodes altına geç
 WORKDIR /comfyui/custom_nodes
 
-# ResizeImagesByLongerEdge node'unu sağlayan popüler bir repo (örnek)
-RUN git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git && \
-    cd comfyui_controlnet_aux && \
-    pip install --no-cache-dir -r requirements.txt && \
-    cd ..
-RUN git clone https://github.com/jamesWalker55/comfyui-various.git && \
-    cd comfyui-various && \
-    pip install --no-cache-dir -r requirements.txt && \
-    cd ..
+# Custom node 1: controlnet_aux (has dependencies)
+RUN git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git
+RUN cd comfyui_controlnet_aux && \
+    if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; else echo "No requirements.txt found"; fi
+
+# Custom node 2: comfyui-various (provides JWImageResizeByLongerSide, no dependencies)
+RUN git clone https://github.com/jamesWalker55/comfyui-various.git
+RUN cd comfyui-various && \
+    if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; else echo "No requirements.txt found"; fi
 # Veya daha spesifik resize node repo'su varsa onu clone et
 # RUN git clone https://github.com/XXX/resize-by-longer-edge.git ...
 
-# Qwen Edit Utils custom node'unu kur (TextEncodeQwenImageEditPlus buradan geliyor)
-RUN git clone https://github.com/lrzjason/Comfyui-QwenEditUtils.git && \
-    cd Comfyui-QwenEditUtils && \
-    if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; fi && \
-    cd .. && \
-    # Opsiyonel: Repo'yu temizle, cache temizle
-    rm -rf .git
+# Custom node 3: Qwen Edit Utils (provides TextEncodeQwenImageEditPlus)
+RUN git clone https://github.com/lrzjason/Comfyui-QwenEditUtils.git
+RUN cd Comfyui-QwenEditUtils && \
+    if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; else echo "No requirements.txt found"; fi
 
 # Eğer successor repo'yu (daha yeni versiyon) tercih edersen, yukarıdakini bununla değiştir:
 # RUN git clone https://github.com/lrzjason/ComfyUI-EditUtils.git && \
